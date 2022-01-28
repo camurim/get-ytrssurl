@@ -5,7 +5,7 @@
     "manifest_version": 2,
     "content_scripts": [
         {
-            "matches": ["https://*.youtube.com/c/*", "https://*.youtube.com/channel/*"],
+            "matches": ["https://*.youtube.com/user/*","https://*.youtube.com/c/*", "https://*.youtube.com/channel/*"],
             "js": ["content-script.js"]
         }
     ]
