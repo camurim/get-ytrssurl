@@ -8,8 +8,13 @@
 
             let tags = prompt("Enter Newsboat TAGs");
 
-            navigator.clipboard.writeText(rssUrl + ' youtube ' + tags + ' "~' + channelTitle + '"');
-            alert("RSS URL Copied:\n\n" + rssUrl + ' youtube ' + tags + ' "~' + channelTitle + '"');
+            navigator.clipboard.writeText(rssUrl + ' youtube ' + tags + ' "~' + channelTitle + '"')
+                     .then(() => {
+                         alert('RSS URL sucessfully copied!');
+                     })
+                    .catch(() => {
+                        alert('Something went wrong. URL: ' + rssUrl + ' youtube ' + tags + ' "~' + channelTitle + '"');
+                    });
         }
         console.log("CHANNEL TITLE: " + channelTitle);
         console.log("RSS URL:" + rssUrl);
