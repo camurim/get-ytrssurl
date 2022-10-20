@@ -17,6 +17,6 @@
     ],
     "web_accessible_resources": [{
             "resources": ["payload.js"],
-            "matches": ["<all_urls>"]
+            "matches": ["https://*.youtube.com/*"]
     }]
 }
