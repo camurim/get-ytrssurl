@@ -1,12 +1,22 @@
 {
-    "name": "GetYTChannelRSSURL",
+    "name": "Get YouTube RSS Feed",
     "description": "Get RSS URL from YouTube Channels!",
-    "version": "1.0",
-    "manifest_version": 2,
+    "version": "1.0.1",
+    "manifest_version": 3,
+    "author": "Carlos Amorim",
+    "permissions": ["activeTab", "scripting"],
+    "action": {
+            "default_popup": "index.html",
+            "default_title": "Chanel RSS Feed"
+    },
     "content_scripts": [
         {
             "matches": ["https://*.youtube.com/user/*","https://*.youtube.com/c/*", "https://*.youtube.com/channel/*"],
             "js": ["content-script.js"]
         }
-    ]
+    ],
+    "web_accessible_resources": [{
+            "resources": ["payload.js"],
+            "matches": ["<all_urls>"]
+    }]
 }

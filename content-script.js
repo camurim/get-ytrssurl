@@ -19,12 +19,4 @@
         console.log("CHANNEL TITLE: " + channelTitle);
         console.log("RSS URL:" + rssUrl);
     }
-
-    function inject(fn) {
-        const script = document.createElement('script')
-        script.text = `(${fn.toString()})();`
-        document.documentElement.appendChild(script)
-    }
-
-    inject(script)
 })()
