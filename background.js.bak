@@ -1,7 +1,0 @@
-chrome.action.onClicked.addListener((tab) => {
-  chrome.scripting.executeScript({
-    target: {tabId: tab.id},
-    "matches": ["https://*.youtube.com/user/*","https://*.youtube.com/c/*", "https://*.youtube.com/channel/*"],
-    files: ['content-script.js']
-  });
-});
