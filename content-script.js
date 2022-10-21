@@ -1,13 +1,14 @@
 window.onload = function () {
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-        if (request.action == "getRssFeed") {
-            const rssUrl = window["ytInitialData"].metadata.channelMetadataRenderer.rssUrl;
+        if (request.action == 'getRssFeed') {
+            alert(request.action);
+            const rssFeed = window["ytInitialData"].metadata.channelMetadataRenderer.rssUrl;
             const channelTitle = window["ytInitialData"].header.c4TabbedHeaderRenderer.title;
 
             console.log("CHANNEL TITLE: " + channelTitle);
-            console.log("RSS URL:" + rssUrl);
+            console.log("RSS URL:" + rssFeed);
 
-            sendResponse({rssfeed: rssUrl, channeltitle: channelTitle});
+            sendResponse({rssFeed: rssFeed, channelTitle: channelTitle});
        }
     });
 };
