@@ -1,5 +1,5 @@
-window.onload = function () {
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+window.onload = () => {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action == 'getRssFeed') {
             alert(request.action);
             const rssFeed = window["ytInitialData"].metadata.channelMetadataRenderer.rssUrl;

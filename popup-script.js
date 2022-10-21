@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded',function() {
+document.addEventListener('DOMContentLoaded', () => {
     var btGetFeed = document.getElementById("getFeed");
     btGetFeed.addEventListener("click", () => {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             var tab = tabs[0];
-            chrome.tabs.sendMessage(tab.id, {action: "getRssFeed"}, function (response) {
+            chrome.tabs.sendMessage(tab.id, {action: "getRssFeed"}, (response) => {
                 //response = response || {};
                 //console.log(response.rssFeed + ' youtube  "~' + response.channelTitle + '"');
             });
