@@ -1,22 +1,13 @@
-;(function() {
+window.onload = function () {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        if (request.action == "getRssFeed") {
+            const rssUrl = window["ytInitialData"].metadata.channelMetadataRenderer.rssUrl;
+            const channelTitle = window["ytInitialData"].header.c4TabbedHeaderRenderer.title;
 
-    function script() {
-        const rssUrl = window["ytInitialData"].metadata.channelMetadataRenderer.rssUrl;
-        const channelTitle = window["ytInitialData"].header.c4TabbedHeaderRenderer.title;
+            console.log("CHANNEL TITLE: " + channelTitle);
+            console.log("RSS URL:" + rssUrl);
 
-        if (confirm("Do you want to copy the RSS URL to clipboard")) {
-
-            let tags = prompt("Enter Newsboat TAGs");
-
-            navigator.clipboard.writeText(rssUrl + ' youtube ' + tags + ' "~' + channelTitle + '"')
-                     .then(() => {
-                         alert('RSS URL sucessfully copied!');
-                     })
-                    .catch(() => {
-                        alert('Something went wrong. URL: ' + rssUrl + ' youtube ' + tags + ' "~' + channelTitle + '"');
-                    });
-        }
-        console.log("CHANNEL TITLE: " + channelTitle);
-        console.log("RSS URL:" + rssUrl);
-    }
-})()
+            sendResponse({rssfeed: rssUrl, channeltitle: channelTitle});
+       }
+    });
+};

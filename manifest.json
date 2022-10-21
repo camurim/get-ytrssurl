@@ -4,7 +4,7 @@
     "version": "1.0.1",
     "manifest_version": 3,
     "author": "Carlos Amorim",
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "tabs", "scripting"],
     "action": {
             "default_popup": "index.html",
             "default_title": "Chanel RSS Feed"
@@ -16,7 +16,10 @@
         }
     ],
     "web_accessible_resources": [{
-            "resources": ["payload.js"],
-            "matches": ["https://*.youtube.com/*"]
-    }]
+        "resources": ["popup-script.js"],
+        "matches": ["https://*.youtube.com/*"]
+    }],
+    "content_security_policy": {
+        "extension_pages": "default-src 'self'; script-src 'self'"
+    }
 }
