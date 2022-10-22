@@ -9,18 +9,8 @@
             "default_popup": "index.html",
             "default_title": "Chanel RSS Feed"
     },
-    "content_scripts": [
-        {
-            "matches": ["https://*.youtube.com/user/*","https://*.youtube.com/c/*", "https://*.youtube.com/channel/*"],
-            "js": ["content-script.js"],
-            "all_frames": true
-        }
-    ],
-    "web_accessible_resources": [{
+   "web_accessible_resources": [{
         "resources": ["popup-script.js"],
         "matches": ["https://*.youtube.com/*"]
-    }],
-    "content_security_policy": {
-        "extension_pages": "default-src 'self'; script-src 'self'"
-    }
+    }]
 }
