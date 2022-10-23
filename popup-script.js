@@ -1,10 +1,17 @@
 var rssFeed = '';
+var btTags = '';
+var btEntry = '';
+var channelTitle = '';
+
+let btGetChannelId = document.getElementById("btGetChannelId");
+let btCopy = document.getElementById("btCopy");
+let txChannelTitle = document.getElementById('txChannelTitle');
+let txRssFeed = document.getElementById('txRssFeed');
+let txNbTags = document.getElementById('txNbTags');
+let txNbEntry = document.getElementById('txNbEntry');
 
 document.addEventListener('DOMContentLoaded', () => {
-    let btGetPageUrl = document.getElementById("btGetPageUrl");
-    let txRssFeed = document.getElementById('txRssFeed');
-
-    btGetPageUrl.addEventListener("click", () => {
+    btGetChannelId.addEventListener("click", () => {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             let tab = tabs[0];
             let tabUrl = tab.url;
@@ -23,12 +30,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     rssFeed = resJson.items[0].id;
                     return rssFeed;
-                })().then((result) => {rssFeed = result});
+                })()
+                    .then((result) => {rssFeed = result})
+                    .catch((error) => {rssFeed = error});
             } else if (normalUrlRegExp.exec(tabUrl)) {
                 rssFeed = userNameOrId;
             }
 
             txRssFeed.value = rssFeed;
         });
+    });
+
+    btCopy.addEventListener("click", () => {
+        btTags = txNbTags.value;
+        channelTitle = txChannelTitle.value;
+
+        btEntry = `https://www.youtube.com/feeds/videos.xml?channel_id=${rssFeed} youtube ${btTags} "~${channelTitle}"`;
+        txNbEntry.value = btEntry;
+
+        navigator.clipboard.writeText(btEntry)
+            .then(() => {
+                console.log('RSS URL sucessfully copied!');
+            })
+            .catch(() => {
+                console.log(`Something went wrong. URL: ${btEntry}`);
+            });
     });
 });

@@ -3,8 +3,51 @@
         <title>Get YouTube RSS Feed</title>
     </header>
     <body>
-        <button id="btGetPageUrl">Get Feed</button>
-        <input type="text" id="txRssFeed" value="" />
+        <span style="display: inline-block; width: 400px;" >
+            <table>
+                <tr>
+                    <td>
+                        <label>Channel ID:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="txRssFeed" value="" readonly />
+                    </td>
+                    <td>
+                        <button id="btGetChannelId">Get Feed</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Channel Title:</label>
+                    </td>
+                    <td colspan="2">
+                        <input type="text" id="txChannelTitle" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Newsboat Tags:</label>
+                    </td>
+                    <td colspan="2">
+                        <input type="text" id="txNbTags" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Newsboat entry:</label>
+                    </td>
+                    <td colspan="2">
+                        <input type="text" id="txNbEntry" value="" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <button id="btCopy">Copy</button>
+                    </td>
+                </tr>
+            </table>
+        </span>
+
         <script type="text/javascript" src="popup-script.js"></script>
     </body>
 </html>
