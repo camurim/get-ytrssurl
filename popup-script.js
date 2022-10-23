@@ -1,3 +1,5 @@
+const apikey ='AIzaSyAf7Y4c-gfjczDGOplpP2EoCdL3ZzmAEQk';
+
 var rssFeed = '';
 var btTags = '';
 var btEntry = '';
@@ -23,8 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (custonUrlRegExp.exec(tabUrl)) {
                 (async () => {
-                    const apikey ='AIzaSyAf7Y4c-gfjczDGOplpP2EoCdL3ZzmAEQk';
-
                     let response = await fetch(`https://www.googleapis.com/youtube/v3/channels?key=${apikey}&forUsername=${userNameOrId}&part=id`);
                     let resJson = await response.json();
 
@@ -32,9 +32,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     return rssFeed;
                 })()
                     .then((result) => {rssFeed = result})
-                    .catch((error) => {rssFeed = error});
+                    .catch((error) => {console.log(`Error: ${error}`)});
             } else if (normalUrlRegExp.exec(tabUrl)) {
                 rssFeed = userNameOrId;
+            }
+
+            if (!rssFeed) {
+                (async () => {
+                    let response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=snippet&q=${userNameOrId}&type=channel`);
+                    let resJson = await response.json();
+
+                    rssFeed = resJson.items[0].id.channelId;
+                    return rssFeed;
+                })()
+                    .then((result) => {rssFeed = result})
+                    .catch((error) => {console.log(`Error: ${error}`)});
             }
 
             txRssFeed.value = rssFeed;
