@@ -1,16 +1,16 @@
 const apikey ='AIzaSyAf7Y4c-gfjczDGOplpP2EoCdL3ZzmAEQk';
 
+const btGetChannelId = document.getElementById("btGetChannelId");
+const btCopy = document.getElementById("btCopy");
+const txChannelTitle = document.getElementById('txChannelTitle');
+const txRssFeed = document.getElementById('txRssFeed');
+const txNbTags = document.getElementById('txNbTags');
+const txNbEntry = document.getElementById('txNbEntry');
+
 var rssFeed = '';
 var btTags = '';
 var btEntry = '';
 var channelTitle = '';
-
-let btGetChannelId = document.getElementById("btGetChannelId");
-let btCopy = document.getElementById("btCopy");
-let txChannelTitle = document.getElementById('txChannelTitle');
-let txRssFeed = document.getElementById('txRssFeed');
-let txNbTags = document.getElementById('txNbTags');
-let txNbEntry = document.getElementById('txNbEntry');
 
 document.addEventListener('DOMContentLoaded', () => {
     btGetChannelId.addEventListener("click", () => {
