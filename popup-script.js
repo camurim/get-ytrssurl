@@ -6,6 +6,7 @@ const txChannelTitle = document.getElementById('txChannelTitle');
 const txChannelId = document.getElementById('txChannelId');
 const txNbTags = document.getElementById('txNbTags');
 const txNbEntry = document.getElementById('txNbEntry');
+const channelPages = ['featured','videos','playlists','community','channels','about'];
 
 var channelId = '';
 var channelTitle = '';
@@ -20,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let urlArray = tabUrl.split('/');
             let userNameOrId = urlArray[urlArray.length - 1];
 
+            if (channelPages.includes(userNameOrId))
+                userNameOrId = urlArray[urlArray.length - 2];
+
             let custonUrlRegExp = /(https?:\/\/)?(www\.)?youtube\.com\/(c|user)\/[\w-]+/;
             let normalUrlRegExp = /(https?:\/\/)?(www\.)?youtube\.com\/channel\/[\w-]+/;
 
@@ -33,22 +37,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 })()
                     .then((result) => {channelId = result})
                     .catch((error) => {console.log(`Error: ${error}`)});
+
+                if (!channelId) {
+                    (async () => {
+                        let response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=snippet&q=${userNameOrId}&type=channel`);
+                        let resJson = await response.json();
+
+                        let channelId = resJson.items[0].id.channelId;
+                        let channelTitle = resJson.items[0].snippet.title;
+
+                        return {channelId, channelTitle};
+                    })()
+                        .then((result) => {channelId = result.channelId; channelTitle = result.channelTitle})
+                        .catch((error) => {console.log(`Error: ${error}`)});
+                }
             } else if (normalUrlRegExp.exec(tabUrl)) {
                 channelId = userNameOrId;
-            }
-
-            if (!channelId) {
-                (async () => {
-                    let response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=snippet&q=${userNameOrId}&type=channel`);
-                    let resJson = await response.json();
-
-                    let channelId = resJson.items[0].id.channelId;
-                    let channelTitle = resJson.items[0].snippet.title;
-
-                    return {channelId, channelTitle};
-                })()
-                    .then((result) => {channelId = result.channelId; channelTitle = result.channelTitle})
-                    .catch((error) => {console.log(`Error: ${error}`)});
+            } else {
+                channelId = 'This is not an YouTube channel page';
             }
 
             txChannelId.value = channelId;
