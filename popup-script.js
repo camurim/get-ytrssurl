@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let channelTitleRegExp = /(\(\d+\)) ([\w+ +]*) (- YouTube)/;
             let channelTitleMatches = tabTitle.match(channelTitleRegExp);
 
+            channelTitle = channelTitleMatches[2];
+
             if (custonUrlRegExp.exec(tabUrl)) {
                 (async () => {
                     let response = await fetch(`https://www.googleapis.com/youtube/v3/channels?key=${apikey}&forUsername=${userNameOrId}&part=id`);
