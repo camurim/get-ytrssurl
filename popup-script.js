@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             let tab = tabs[0];
             let tabUrl = tab.url;
+            let tabTitle = tab.title;
             let urlArray = tabUrl.split('/');
             let userNameOrId = urlArray[urlArray.length - 1];
 
@@ -26,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let custonUrlRegExp = /(https?:\/\/)?(www\.)?youtube\.com\/(c|user)\/[\w-]+/;
             let normalUrlRegExp = /(https?:\/\/)?(www\.)?youtube\.com\/channel\/[\w-]+/;
+            let channelTitleRegExp = /(\(\d+\)) ([\w+ +]*) (- YouTube)/;
+            let channelTitleMatches = tabTitle.match(channelTitleRegExp);
 
             if (custonUrlRegExp.exec(tabUrl)) {
                 (async () => {
@@ -53,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else if (normalUrlRegExp.exec(tabUrl)) {
                 channelId = userNameOrId;
+                channelTitle = channelTitleMatches[2];
             } else {
                 channelId = 'This is not an YouTube channel page';
             }
