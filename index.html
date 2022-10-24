@@ -3,17 +3,17 @@
         <title>Get YouTube RSS Feed</title>
     </header>
     <body>
-        <span style="display: inline-block; width: 400px;" >
+        <span style="display: inline-block; width: 450px;" >
             <table>
                 <tr>
                     <td>
                         <label>Channel ID:</label>
                     </td>
                     <td>
-                        <input type="text" id="txRssFeed" value="" readonly />
+                        <input type="text" id="txChannelId" value="" readonly />
                     </td>
                     <td>
-                        <button id="btGetChannelId">Get Feed</button>
+                        <button id="btGetChannelId">Get Channel ID</button>
                     </td>
                 </tr>
                 <tr>
@@ -36,12 +36,10 @@
                     <td>
                         <label>Newsboat entry:</label>
                     </td>
-                    <td colspan="2">
+                    <td>
                         <input type="text" id="txNbEntry" value="" readonly />
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
+                    <td>
                         <button id="btCopy">Copy</button>
                     </td>
                 </tr>

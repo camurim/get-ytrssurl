@@ -3,17 +3,17 @@ const apikey ='AIzaSyAf7Y4c-gfjczDGOplpP2EoCdL3ZzmAEQk';
 const btGetChannelId = document.getElementById("btGetChannelId");
 const btCopy = document.getElementById("btCopy");
 const txChannelTitle = document.getElementById('txChannelTitle');
-const txRssFeed = document.getElementById('txRssFeed');
+const txChannelId = document.getElementById('txChannelId');
 const txNbTags = document.getElementById('txNbTags');
 const txNbEntry = document.getElementById('txNbEntry');
 
-var rssFeed = '';
-var btTags = '';
-var btEntry = '';
+var channelId = '';
 var channelTitle = '';
+var nbTags = '';
+var nbEntry = '';
 
 document.addEventListener('DOMContentLoaded', () => {
-    btGetChannelId.addEventListener("click", () => {
+    btGetChannelId.addEventListener("click", async () => {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             let tab = tabs[0];
             let tabUrl = tab.url;
@@ -28,44 +28,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     let response = await fetch(`https://www.googleapis.com/youtube/v3/channels?key=${apikey}&forUsername=${userNameOrId}&part=id`);
                     let resJson = await response.json();
 
-                    rssFeed = resJson.items[0].id;
-                    return rssFeed;
+                    let channelId = resJson.items[0].id;
+                    return channelId;
                 })()
-                    .then((result) => {rssFeed = result})
+                    .then((result) => {channelId = result})
                     .catch((error) => {console.log(`Error: ${error}`)});
             } else if (normalUrlRegExp.exec(tabUrl)) {
-                rssFeed = userNameOrId;
+                channelId = userNameOrId;
             }
 
-            if (!rssFeed) {
+            if (!channelId) {
                 (async () => {
                     let response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=snippet&q=${userNameOrId}&type=channel`);
                     let resJson = await response.json();
 
-                    rssFeed = resJson.items[0].id.channelId;
-                    return rssFeed;
+                    let channelId = resJson.items[0].id.channelId;
+                    let channelTitle = resJson.items[0].snippet.title;
+
+                    return {channelId, channelTitle};
                 })()
-                    .then((result) => {rssFeed = result})
+                    .then((result) => {channelId = result.channelId; channelTitle = result.channelTitle})
                     .catch((error) => {console.log(`Error: ${error}`)});
             }
 
-            txRssFeed.value = rssFeed;
+            txChannelId.value = channelId;
+            if (channelTitle)
+                txChannelTitle.value = channelTitle;
         });
     });
 
-    btCopy.addEventListener("click", () => {
-        btTags = txNbTags.value;
+    btCopy.addEventListener("click", async () => {
+        nbTags = txNbTags.value;
         channelTitle = txChannelTitle.value;
 
-        btEntry = `https://www.youtube.com/feeds/videos.xml?channel_id=${rssFeed} youtube ${btTags} "~${channelTitle}"`;
-        txNbEntry.value = btEntry;
+        nbEntry = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId} youtube ${nbTags} "~${channelTitle}"`;
+        txNbEntry.value = nbEntry;
 
-        navigator.clipboard.writeText(btEntry)
+        navigator.clipboard.writeText(nbEntry)
             .then(() => {
                 console.log('RSS URL sucessfully copied!');
             })
             .catch(() => {
-                console.log(`Something went wrong. URL: ${btEntry}`);
+                console.log(`Something went wrong. URL: ${nbEntry}`);
             });
     });
 });
