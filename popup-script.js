@@ -43,13 +43,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then((result) => {channelId = result})
                     .catch((error) => {console.log(`Error: ${error}`)});
 
-                if (!channelId) {
+                if (!channelId || channelId.trim() == '') {
                     (async () => {
                         let response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=snippet&q=${userNameOrId}&type=channel`);
                         let resJson = await response.json();
 
                         let channelId = resJson.items[0].id.channelId;
                         let channelTitle = resJson.items[0].snippet.title;
+
+                        if (!channelId) {
+                            response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=snippet&q=${channelTitle}&type=channel`);
+                            resJson = await response.json();
+                            channelId = resJson.items[0].id.channelId;
+                            channelTitle = resJson.items[0].snippet.title;
+                        }
 
                         return {channelId, channelTitle};
                     })()
